@@ -17,22 +17,20 @@ class BarcodeLabelGenerator:
     def generate_zpl(self):
         zpl = "^XA^CI28\n"
 
-        x_offset = 50  # Adjusted to center the columns
-        y_offset = 0
-        width = 220  # Reduced width to bring columns closer
-        height = 200
+        x_offset = 50  # Posição inicial no eixo X
+        y_offset = 50  # Posição inicial no eixo Y
+        width = 400    # Largura de cada etiqueta
+        height = 200   # Altura de cada etiqueta
 
         max_columns = 2
-        
+
         for ean, sku, quantity in self.eans_and_skus:
             for i in range(quantity):
                 zpl += f"""
                 ^LH{x_offset},{y_offset}
-                        ^FO139,18^BY1,,80^BCN,80,N,N^FD{ean}^FS
-                        ^FO145,110^A0N,20,25^FD{ean}^FS
-                        ^FO40,136^A0N,18,18^FB380,2,0,C^FD SKU: {sku}^FS
+                ^FO50,20^BY2,,80^BEN,80,Y,N^FD{ean}^FS
+                ^FO22,130^A0N,25,25^FDSKU: {sku}^FS
                 """
-                
                 x_offset += width
                 if x_offset >= width * max_columns + 50:
                     x_offset = 50
